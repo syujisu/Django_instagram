@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'photo.apps.HelloConfig'
+    'photo.apps.PhotoConfig'
 ]
 
 MIDDLEWARE = [
@@ -119,3 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/res/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_URL 을 설정하고 ROOT를 잡아주어서 저기로 사진이 저장되도록 한다.
