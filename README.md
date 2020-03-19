@@ -15,7 +15,7 @@
 >> 수정하기   
 >>  생성페이지   
  
-~~4. url 연결   ~~
+~~4. url 연결~~
 
 5. template 만들기   
    * create/list/update/delete/detail      
