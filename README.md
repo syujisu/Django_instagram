@@ -8,14 +8,14 @@
 
 ~~2. 모델 설계하기~~
 
-3. views 설계하기
+~~3. views 설계하기
 >> list페이지   
 >> 상세페이지   
 >> 삭제하기   
 >> 수정하기   
 >>  생성페이지   
  
-4. url 연결   
+~~4. url 연결   ~~
 
 5. template 만들기   
    * create/list/update/delete/detail      
