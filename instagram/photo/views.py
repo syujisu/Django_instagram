@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -16,6 +16,16 @@ class PhotoCreate(CreateView):
     fields = ['text', 'image']
     template_name_suffix = '_create'
     success_url = '/'
+
+
+    def form_valid(self, form):
+        form.instance.author_id = self.request.user.id
+        if form.is_valid():
+            form.instance.save()
+            return redirect('/')
+        else:
+            # 올바르지 않다면
+            return self.render_to_response({'form': form})
 
 # PhotoCreate:
 # 모델을 활용하는데생성할 때 채워야 할 필드 확인이후 연결될 템플릿 이름은 Photo_create 일 것이다.
