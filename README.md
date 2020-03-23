@@ -17,10 +17,10 @@
  
 ~~4. url 연결~~
 
-5. template 만들기   
-   * create/list/update/delete/detail      
+~~5. template 만들기~~ 
+   * create/list/update/delete/detail
    
-6. 사진 업로드 기능    
+~~6. 사진 업로드 기능~~  
 
 7. success url을 get_absolute_url로 연동   
 
