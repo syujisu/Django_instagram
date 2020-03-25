@@ -124,3 +124,6 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/res/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #MEDIA_URL 을 설정하고 ROOT를 잡아주어서 저기로 사진이 저장되도록 한다.
+
+LOGIN_REDIRECT_URL ='/' 
+#로그인 성공했을 시 접속할 링크 구현해주기
