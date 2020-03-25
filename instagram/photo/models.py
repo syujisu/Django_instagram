@@ -23,4 +23,4 @@ class Photo(models.Model):
 
     def get_absolute_url(self):
         return reverse('photo:detail', args = [self.id])
-        #상세페이지로 이동하도록 absolute_url 설정
+        #상세페이지로 이동하도록 absolute_url 설정, views 에서 return super가 나오게되면 absolute가 실행
