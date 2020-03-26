@@ -3,6 +3,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
 from .models import Photo
+from django.http import HttpResponseRedirect
+from django.contrib import messages 
 
 # class형 뷰의 generic view를 이용하여 구현
 # ListView/CreateView/UpdateView/DeleteView/DetailView 구현
@@ -37,12 +39,34 @@ class PhotoUpdate(UpdateView):
     template_name_suffix = '_update'
     success_url = '/'
 
+    def dispatch(self, request, *args, **kwargs):
+        object = self.get_object()
+
+        if object.author != request.user:
+            messages.warning(request, '수정할 권한이 없습니다.')
+
+            return HttpResponseRedirect('/')
+            #삭제페이지에 권한이 없다고 띄우거나
+            #detail 페이지 들어가서 삭제에 실패했다고 띄우거나
+
+        else:
+            return super(PhotoUpdate, self).dispatch(request, *args, **kwargs)
+
 #photoUpdate : Create와 동일
 
 class PhotoDelete(DeleteView):
     model = Photo
     template_name_suffix = '_delete'
     success_url = '/'
+
+    def dispatch(self, request, *args, **kwargs):
+        object = self.get_object()
+
+        if object.author != request.user:
+            messages.warning(request, '삭제할 권한이 없습니다.')
+            return HttpResponseRedirect('/')
+
+        return super(PhotoDelete, self).dispatch(request, *args, **kwargs)
 
 class PhotoDetail(DetailView):
     model = Photo
