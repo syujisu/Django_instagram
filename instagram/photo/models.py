@@ -13,6 +13,10 @@ class Photo(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    #like, favorite 추가
+    like = models.ManyToManyField(User, related_name='like_post', blank=True)
+    favorite = models.ManyToManyField(User, related_name='favorite_post', blank =True)
+
     def __str__(self):
         return "text : " + self.text
         #admin 사이트 화면 표시 구현 
