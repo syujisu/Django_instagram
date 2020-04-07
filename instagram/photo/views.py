@@ -45,9 +45,7 @@ class PhotoFavorite(View):
                     photo.favorite.remove(user)
                 else:
                     photo.favorite.add(user)
-            referer_url = request.META.get('HTTP_REFERER')
-            path = urlparse(referer_url).path
-            return HttpResponseRedirect(path)
+            return HttpResponseRedirect('/')
 
 
 
