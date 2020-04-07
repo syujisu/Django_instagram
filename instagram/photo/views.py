@@ -1,13 +1,55 @@
+# class형 뷰의 generic view를 이용하여 구현
+# ListView/CreateView/UpdateView/DeleteView/DetailView 구현
 from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.views.generic.detail import DetailView
 from .models import Photo
-from django.http import HttpResponseRedirect
 from django.contrib import messages 
 
-# class형 뷰의 generic view를 이용하여 구현
-# ListView/CreateView/UpdateView/DeleteView/DetailView 구현
+#like 버튼 views 위해 
+from django.views.generic.base import View
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+from urllib.parse import urlparse
+
+#like 함수
+class PhotoLike(View):
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated: #로그인 확인 되지 않을 시 
+            return HttpResponseForbidden()  #자료 숨기기
+        
+        else:
+            if 'photo_id' in kwargs: #photo_id 확인
+                photo_id = kwargs['photo_id']
+                photo = Photo.Objects.get(pk=photo_id) #photo는 pk를 가진다
+                user = request.user
+                if user in photo.like.all():
+                    photo.like.remove(user) #user가 이미 좋아요 했다면 클릭해서 좋아요 지워짐
+                else:
+                    photo.like.add(user) #user가 좋아요하지않았다면, 좋아요에 더한다
+            referer_url = request.META.get('HTTP_REFERER') 
+            path = urlparse(referer_url).path #메인페이지에 좋아요 누르면 그 페이지에 있게하고
+            return HttpResponseRedirect(path) #상세페이지 좋아요를 누르면 그 페이지로 redirect
+
+#favorite 저장 함수
+class PhotoFavorite(View):
+    def get(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:    #로그인확인
+            return HttpResponseForbidden()
+        else:
+            if 'photo_id' in kwargs:
+                photo_id = kwargs['photo_id']
+                photo = Photo.objects.get(pk=photo_id)
+                user = request.user
+                if user in photo.favorite.all():
+                    photo.favorite.remove(user)
+                else:
+                    photo.favorite.add(user)
+            referer_url = request.META.get('HTTP_REFERER')
+            path = urlparse(referer_url).path
+            return HttpResponseRedirect(path)
+
+
 
 class PhotoList(ListView):
     model = Photo
@@ -71,6 +113,8 @@ class PhotoDelete(DeleteView):
 class PhotoDetail(DetailView):
     model = Photo
     template_name_suffix = '_detail'
+
+
 
 #PhotoDelete와 PhotoDetail
 #삭제와 상세페이지는 특별한 로직이 필요하지 않음
